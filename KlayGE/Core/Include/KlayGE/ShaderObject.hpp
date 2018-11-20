@@ -95,10 +95,7 @@ namespace KlayGE
 		};
 
 	public:
-		ShaderObject();
-		virtual ~ShaderObject()
-		{
-		}
+		virtual ~ShaderObject();
 
 		virtual bool AttachNativeShader(ShaderType type, RenderEffect const & effect,
 			std::array<uint32_t, ST_NumShaderTypes> const & shader_desc_ids, std::vector<uint8_t> const & native_shader_block) = 0;
@@ -147,6 +144,8 @@ namespace KlayGE
 			return cs_block_size_z_;
 		}
 
+		bool HWResourceReady() const;
+
 	protected:
 		std::vector<uint8_t> CompileToDXBC(ShaderType type, RenderEffect const & effect,
 			RenderTechnique const & tech, RenderPass const & pass,
@@ -155,13 +154,18 @@ namespace KlayGE
 		void ReflectDXBC(std::vector<uint8_t> const & code, void** reflector);
 		std::vector<uint8_t> StripDXBC(std::vector<uint8_t> const & code, uint32_t strip_flags);
 
+	private:
+		virtual void CheckHwResourceReady() = 0;
+
 	protected:
 		std::array<bool, ST_NumShaderTypes> is_shader_validate_;
 		
 		bool is_validate_;
-		bool has_discard_;
-		bool has_tessellation_;
-		uint32_t cs_block_size_x_, cs_block_size_y_, cs_block_size_z_;
+		bool has_discard_ = false;
+		bool has_tessellation_ = false;
+		uint32_t cs_block_size_x_ = 0, cs_block_size_y_ = 0, cs_block_size_z_ = 0;
+
+		bool hw_res_ready_ = false;
 	};
 }
 

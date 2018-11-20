@@ -186,6 +186,8 @@ namespace KlayGE
 		void D3D11AttachShaderBytecode(ShaderType type, RenderEffect const & effect,
 			std::array<uint32_t, ST_NumShaderTypes> const & shader_desc_ids, std::shared_ptr<std::vector<uint8_t>> const & code_blob);
 
+		void CheckHwResourceReady() override;
+
 	private:
 		std::shared_ptr<NullShaderObjectTemplate> so_template_;
 

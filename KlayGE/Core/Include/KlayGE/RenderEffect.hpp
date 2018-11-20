@@ -1009,7 +1009,7 @@ namespace KlayGE
 			return name_hash_;
 		}
 
-		void Bind(RenderEffect const & effect) const;
+		bool Bind(RenderEffect const & effect) const;
 		void Unbind(RenderEffect const & effect) const;
 
 		bool Validate() const

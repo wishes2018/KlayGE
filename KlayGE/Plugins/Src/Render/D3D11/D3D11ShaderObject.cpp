@@ -1231,6 +1231,8 @@ namespace KlayGE
 		{
 			all_cbuffs_[i] = effect.CBufferByIndex(all_cbuff_indices[i]);
 		}
+
+		hw_res_ready_ = true;
 	}
 
 	ShaderObjectPtr D3D11ShaderObject::Clone(RenderEffect const & effect)
@@ -1282,6 +1284,8 @@ namespace KlayGE
 		{
 			ret->all_cbuffs_[i] = effect.CBufferByIndex(all_cbuff_indices[i]);
 		}
+
+		ret->hw_res_ready_ = hw_res_ready_;
 
 		return ret;
 	}
@@ -1430,9 +1434,14 @@ namespace KlayGE
 		}
 	}
 
-	ArrayRef<uint8_t> D3D11ShaderObject:: VSCode() const
+	ArrayRef<uint8_t> D3D11ShaderObject::VSCode() const
 	{
 		auto const & vs_ptr = so_template_->shader_code_[ST_VertexShader].first;
 		return vs_ptr ? MakeArrayRef(*vs_ptr) : ArrayRef<uint8_t>();
+	}
+
+	void D3D11ShaderObject::CheckHwResourceReady()
+	{
+		// TODO:
 	}
 }

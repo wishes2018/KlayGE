@@ -937,12 +937,13 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-					this->UpdateRenderPSO(effect, pass, rl, has_tessellation);
-					d3d_render_cmd_list_->ExecuteIndirect(draw_indexed_indirect_signature_.get(), 1,
-						arg_buff, rl.IndirectArgsOffset(), nullptr, 0);
-					pass.Unbind(effect);
+					if (pass.Bind(effect))
+					{
+						this->UpdateRenderPSO(effect, pass, rl, has_tessellation);
+						d3d_render_cmd_list_->ExecuteIndirect(draw_indexed_indirect_signature_.get(), 1,
+							arg_buff, rl.IndirectArgsOffset(), nullptr, 0);
+						pass.Unbind(effect);
+					}
 				}
 			}
 			else
@@ -950,12 +951,13 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-					this->UpdateRenderPSO(effect, pass, rl, has_tessellation);
-					d3d_render_cmd_list_->ExecuteIndirect(draw_indirect_signature_.get(), 1,
-						arg_buff, rl.IndirectArgsOffset(), nullptr, 0);
-					pass.Unbind(effect);
+					if (pass.Bind(effect))
+					{
+						this->UpdateRenderPSO(effect, pass, rl, has_tessellation);
+						d3d_render_cmd_list_->ExecuteIndirect(draw_indirect_signature_.get(), 1,
+							arg_buff, rl.IndirectArgsOffset(), nullptr, 0);
+						pass.Unbind(effect);
+					}
 				}
 			}
 		}
@@ -967,12 +969,13 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-					this->UpdateRenderPSO(effect, pass, rl, has_tessellation);
-					d3d_render_cmd_list_->DrawIndexedInstanced(num_indices, num_instances, rl.StartIndexLocation(),
-						rl.StartVertexLocation(), rl.StartInstanceLocation());
-					pass.Unbind(effect);
+					if (pass.Bind(effect))
+					{
+						this->UpdateRenderPSO(effect, pass, rl, has_tessellation);
+						d3d_render_cmd_list_->DrawIndexedInstanced(num_indices, num_instances, rl.StartIndexLocation(),
+							rl.StartVertexLocation(), rl.StartInstanceLocation());
+						pass.Unbind(effect);
+					}
 				}
 			}
 			else
@@ -981,12 +984,13 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-					this->UpdateRenderPSO(effect, pass, rl, has_tessellation);
-					d3d_render_cmd_list_->DrawInstanced(num_vertices, num_instances,
-						rl.StartVertexLocation(), rl.StartInstanceLocation());
-					pass.Unbind(effect);
+					if (pass.Bind(effect))
+					{
+						this->UpdateRenderPSO(effect, pass, rl, has_tessellation);
+						d3d_render_cmd_list_->DrawInstanced(num_vertices, num_instances,
+							rl.StartVertexLocation(), rl.StartInstanceLocation());
+						pass.Unbind(effect);
+					}
 				}
 			}
 		}
@@ -1001,11 +1005,12 @@ namespace KlayGE
 		for (uint32_t i = 0; i < num_passes; ++ i)
 		{
 			auto& pass = tech.Pass(i);
-
-			pass.Bind(effect);
-			this->UpdateComputePSO(effect, pass);
-			d3d_render_cmd_list_->Dispatch(tgx, tgy, tgz);
-			pass.Unbind(effect);
+			if (pass.Bind(effect))
+			{
+				this->UpdateComputePSO(effect, pass);
+				d3d_render_cmd_list_->Dispatch(tgx, tgy, tgz);
+				pass.Unbind(effect);
+			}
 		}
 
 		num_dispatches_just_called_ += num_passes;
@@ -1026,12 +1031,13 @@ namespace KlayGE
 		for (uint32_t i = 0; i < num_passes; ++ i)
 		{
 			auto& pass = tech.Pass(i);
-
-			pass.Bind(effect);
-			this->UpdateComputePSO(effect, pass);
-			d3d_render_cmd_list_->ExecuteIndirect(dispatch_indirect_signature_.get(), 1,
-				checked_cast<D3D12GraphicsBuffer*>(buff_args.get())->D3DResource().get(), offset, nullptr, 0);
-			pass.Unbind(effect);
+			if (pass.Bind(effect))
+			{
+				this->UpdateComputePSO(effect, pass);
+				d3d_render_cmd_list_->ExecuteIndirect(dispatch_indirect_signature_.get(), 1,
+					checked_cast<D3D12GraphicsBuffer*>(buff_args.get())->D3DResource().get(), offset, nullptr, 0);
+				pass.Unbind(effect);
+			}
 		}
 
 		num_dispatches_just_called_ += num_passes;

@@ -1028,6 +1028,8 @@ namespace KlayGE
 				}
 			}
 		}
+
+		hw_res_ready_ = true;
 	}
 
 	ShaderObjectPtr OGLShaderObject::Clone(RenderEffect const & effect)
@@ -1146,6 +1148,8 @@ namespace KlayGE
 				}
 			}
 		}
+
+		ret->hw_res_ready_ = hw_res_ready_;
 
 		return ret;
 	}
@@ -1625,5 +1629,10 @@ namespace KlayGE
 			++ line;
 		}
 		LogError() << "..." << std::endl;
+	}
+
+	void OGLShaderObject::CheckHwResourceReady()
+	{
+		// TODO:
 	}
 }

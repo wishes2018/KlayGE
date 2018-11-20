@@ -106,6 +106,8 @@ namespace KlayGE
 		void PrintGLSLError(ShaderType type, std::string_view info);
 		void PrintGLSLErrorAtLine(std::string const & glsl, int err_line);
 
+		void CheckHwResourceReady() override;
+
 	private:
 		std::shared_ptr<OGLShaderObjectTemplate> so_template_;
 

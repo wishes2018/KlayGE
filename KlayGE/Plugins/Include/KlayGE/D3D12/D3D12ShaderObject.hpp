@@ -214,6 +214,8 @@ namespace KlayGE
 
 		void CreateRootSignature();
 
+		void CheckHwResourceReady() override;
+
 	private:
 		std::shared_ptr<D3D12ShaderObjectTemplate> so_template_;
 

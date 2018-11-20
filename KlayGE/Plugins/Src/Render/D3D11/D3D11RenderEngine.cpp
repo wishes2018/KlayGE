@@ -709,12 +709,13 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-					d3d_imm_ctx_->DrawIndexedInstancedIndirect(
-						checked_cast<D3D11GraphicsBuffer const *>(indirect_buff)->D3DBuffer(),
-						rl.IndirectArgsOffset());
-					pass.Unbind(effect);
+					if (pass.Bind(effect))
+					{
+						d3d_imm_ctx_->DrawIndexedInstancedIndirect(
+							checked_cast<D3D11GraphicsBuffer const *>(indirect_buff)->D3DBuffer(),
+							rl.IndirectArgsOffset());
+						pass.Unbind(effect);
+					}
 				}
 			}
 			else
@@ -722,12 +723,13 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-					d3d_imm_ctx_->DrawInstancedIndirect(
-						checked_cast<D3D11GraphicsBuffer const *>(indirect_buff)->D3DBuffer(),
-						rl.IndirectArgsOffset());
-					pass.Unbind(effect);
+					if (pass.Bind(effect))
+					{
+						d3d_imm_ctx_->DrawInstancedIndirect(
+							checked_cast<D3D11GraphicsBuffer const *>(indirect_buff)->D3DBuffer(),
+							rl.IndirectArgsOffset());
+						pass.Unbind(effect);
+					}
 				}
 			}
 		}
@@ -739,10 +741,12 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-					d3d_imm_ctx_->DrawIndexedInstanced(num_indices, num_instances, rl.StartIndexLocation(), rl.StartVertexLocation(), rl.StartInstanceLocation());
-					pass.Unbind(effect);
+					if (pass.Bind(effect))
+					{
+						d3d_imm_ctx_->DrawIndexedInstanced(num_indices, num_instances, rl.StartIndexLocation(), rl.StartVertexLocation(),
+							rl.StartInstanceLocation());
+						pass.Unbind(effect);
+					}
 				}
 			}
 			else
@@ -751,10 +755,11 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-					d3d_imm_ctx_->DrawInstanced(num_vertices, num_instances, rl.StartVertexLocation(), rl.StartInstanceLocation());
-					pass.Unbind(effect);
+					if (pass.Bind(effect))
+					{
+						d3d_imm_ctx_->DrawInstanced(num_vertices, num_instances, rl.StartVertexLocation(), rl.StartInstanceLocation());
+						pass.Unbind(effect);
+					}
 				}
 			}
 		}
@@ -768,10 +773,11 @@ namespace KlayGE
 		for (uint32_t i = 0; i < num_passes; ++ i)
 		{
 			auto& pass = tech.Pass(i);
-
-			pass.Bind(effect);
-			d3d_imm_ctx_->Dispatch(tgx, tgy, tgz);
-			pass.Unbind(effect);
+			if (pass.Bind(effect))
+			{
+				d3d_imm_ctx_->Dispatch(tgx, tgy, tgz);
+				pass.Unbind(effect);
+			}
 		}
 
 		num_dispatches_just_called_ += num_passes;
@@ -784,10 +790,11 @@ namespace KlayGE
 		for (uint32_t i = 0; i < num_passes; ++ i)
 		{
 			auto& pass = tech.Pass(i);
-
-			pass.Bind(effect);
-			d3d_imm_ctx_->DispatchIndirect(checked_cast<D3D11GraphicsBuffer*>(buff_args.get())->D3DBuffer(), offset);
-			pass.Unbind(effect);
+			if (pass.Bind(effect))
+			{
+				d3d_imm_ctx_->DispatchIndirect(checked_cast<D3D11GraphicsBuffer*>(buff_args.get())->D3DBuffer(), offset);
+				pass.Unbind(effect);
+			}
 		}
 
 		num_dispatches_just_called_ += num_passes;

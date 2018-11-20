@@ -142,6 +142,8 @@ namespace KlayGE
 			std::array<uint32_t, ST_NumShaderTypes> const & shader_desc_ids, ArrayRef<uint8_t> code_blob,
 			std::vector<ShaderDesc::StreamOutputDecl> const & so_decl);
 
+		void CheckHwResourceReady() override;
+
 	private:
 		std::shared_ptr<D3D11ShaderObjectTemplate> so_template_;
 

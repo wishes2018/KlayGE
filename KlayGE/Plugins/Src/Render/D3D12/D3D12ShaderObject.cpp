@@ -1148,6 +1148,8 @@ namespace KlayGE
 		{
 			num_handles_ += static_cast<uint32_t>(srvs_[i].size() + uavs_[i].size());
 		}
+
+		hw_res_ready_ = true;
 	}
 
 	void D3D12ShaderObject::CreateRootSignature()
@@ -1250,6 +1252,8 @@ namespace KlayGE
 		}
 
 		ret->num_handles_ = num_handles_;
+
+		ret->hw_res_ready_ = hw_res_ready_;
 
 		return ret;
 	}
@@ -1480,5 +1484,10 @@ namespace KlayGE
 			pso_desc.CS.pShaderBytecode = nullptr;
 			pso_desc.CS.BytecodeLength = 0;
 		}
+	}
+
+	void D3D12ShaderObject::CheckHwResourceReady()
+	{
+		// TODO:
 	}
 }

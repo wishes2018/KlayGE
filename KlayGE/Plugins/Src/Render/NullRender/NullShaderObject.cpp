@@ -189,6 +189,8 @@ namespace KlayGE
 		{
 			this->OGLLinkShaders(effect);
 		}
+
+		hw_res_ready_ = true;
 	}
 
 	ShaderObjectPtr NullShaderObject::Clone(RenderEffect const & effect)
@@ -1515,5 +1517,9 @@ namespace KlayGE
 			}
 		}
 #endif
+	}
+
+	void NullShaderObject::CheckHwResourceReady()
+	{
 	}
 }

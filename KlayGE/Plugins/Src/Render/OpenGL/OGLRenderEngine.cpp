@@ -1182,28 +1182,28 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-
-					if (so_rl_)
+					if (pass.Bind(effect))
 					{
-						OGLShaderObjectPtr shader = checked_pointer_cast<OGLShaderObject>(pass.GetShaderObject(effect));
-						for (uint32_t j = 0; j < so_buffs_.size(); ++ j)
+						if (so_rl_)
 						{
-							glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, j, so_buffs_[j]);
+							OGLShaderObjectPtr shader = checked_pointer_cast<OGLShaderObject>(pass.GetShaderObject(effect));
+							for (uint32_t j = 0; j < so_buffs_.size(); ++ j)
+							{
+								glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, j, so_buffs_[j]);
+							}
+
+							glBeginTransformFeedback(so_primitive_mode_);
 						}
 
-						glBeginTransformFeedback(so_primitive_mode_);
+						glDrawElementsIndirect(mode, index_type, args_offset);
+
+						if (so_rl_)
+						{
+							glEndTransformFeedback();
+						}
+
+						pass.Unbind(effect);
 					}
-
-					glDrawElementsIndirect(mode, index_type, args_offset);
-
-					if (so_rl_)
-					{
-						glEndTransformFeedback();
-					}
-
-					pass.Unbind(effect);
 				}
 			}
 			else
@@ -1211,28 +1211,28 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-
-					if (so_rl_)
+					if (pass.Bind(effect))
 					{
-						OGLShaderObjectPtr shader = checked_pointer_cast<OGLShaderObject>(pass.GetShaderObject(effect));
-						for (uint32_t j = 0; j < so_buffs_.size(); ++ j)
+						if (so_rl_)
 						{
-							glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, j, so_buffs_[j]);
+							OGLShaderObjectPtr shader = checked_pointer_cast<OGLShaderObject>(pass.GetShaderObject(effect));
+							for (uint32_t j = 0; j < so_buffs_.size(); ++ j)
+							{
+								glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, j, so_buffs_[j]);
+							}
+
+							glBeginTransformFeedback(so_primitive_mode_);
 						}
 
-						glBeginTransformFeedback(so_primitive_mode_);
+						glDrawArraysIndirect(mode, args_offset);
+
+						if (so_rl_)
+						{
+							glEndTransformFeedback();
+						}
+
+						pass.Unbind(effect);
 					}
-
-					glDrawArraysIndirect(mode, args_offset);
-
-					if (so_rl_)
-					{
-						glEndTransformFeedback();
-					}
-
-					pass.Unbind(effect);
 				}
 			}
 
@@ -1245,28 +1245,28 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-
-					if (so_rl_)
+					if (pass.Bind(effect))
 					{
-						OGLShaderObjectPtr shader = checked_pointer_cast<OGLShaderObject>(pass.GetShaderObject(effect));
-						for (uint32_t j = 0; j < so_buffs_.size(); ++ j)
+						if (so_rl_)
 						{
-							glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, j, so_buffs_[j]);
+							OGLShaderObjectPtr shader = checked_pointer_cast<OGLShaderObject>(pass.GetShaderObject(effect));
+							for (uint32_t j = 0; j < so_buffs_.size(); ++ j)
+							{
+								glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, j, so_buffs_[j]);
+							}
+
+							glBeginTransformFeedback(so_primitive_mode_);
 						}
 
-						glBeginTransformFeedback(so_primitive_mode_);
+						glDrawElementsInstanced(mode, static_cast<GLsizei>(rl.NumIndices()), index_type, index_offset, num_instances);
+
+						if (so_rl_)
+						{
+							glEndTransformFeedback();
+						}
+
+						pass.Unbind(effect);
 					}
-
-					glDrawElementsInstanced(mode, static_cast<GLsizei>(rl.NumIndices()), index_type, index_offset, num_instances);
-
-					if (so_rl_)
-					{
-						glEndTransformFeedback();
-					}
-
-					pass.Unbind(effect);
 				}
 			}
 			else
@@ -1274,28 +1274,28 @@ namespace KlayGE
 				for (uint32_t i = 0; i < num_passes; ++ i)
 				{
 					auto& pass = tech.Pass(i);
-
-					pass.Bind(effect);
-
-					if (so_rl_)
+					if (pass.Bind(effect))
 					{
-						OGLShaderObjectPtr shader = checked_pointer_cast<OGLShaderObject>(pass.GetShaderObject(effect));
-						for (uint32_t j = 0; j < so_buffs_.size(); ++ j)
+						if (so_rl_)
 						{
-							glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, j, so_buffs_[j]);
+							OGLShaderObjectPtr shader = checked_pointer_cast<OGLShaderObject>(pass.GetShaderObject(effect));
+							for (uint32_t j = 0; j < so_buffs_.size(); ++ j)
+							{
+								glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, j, so_buffs_[j]);
+							}
+
+							glBeginTransformFeedback(so_primitive_mode_);
 						}
 
-						glBeginTransformFeedback(so_primitive_mode_);
+						glDrawArraysInstanced(mode, rl.StartVertexLocation(), static_cast<GLsizei>(rl.NumVertices()), num_instances);
+
+						if (so_rl_)
+						{
+							glEndTransformFeedback();
+						}
+
+						pass.Unbind(effect);
 					}
-
-					glDrawArraysInstanced(mode, rl.StartVertexLocation(), static_cast<GLsizei>(rl.NumVertices()), num_instances);
-
-					if (so_rl_)
-					{
-						glEndTransformFeedback();
-					}
-
-					pass.Unbind(effect);
 				}
 			}
 

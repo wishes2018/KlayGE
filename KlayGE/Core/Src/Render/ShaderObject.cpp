@@ -292,10 +292,15 @@ namespace
 
 namespace KlayGE
 {
-	ShaderObject::ShaderObject()
-		: has_discard_(false), has_tessellation_(false),
-			cs_block_size_x_(0), cs_block_size_y_(0), cs_block_size_z_(0)
+	ShaderObject::~ShaderObject() = default;
+
+	bool ShaderObject::HWResourceReady() const
 	{
+		if (!hw_res_ready_)
+		{
+			const_cast<ShaderObject*>(this)->CheckHwResourceReady();
+		}
+		return hw_res_ready_;
 	}
 
 #if KLAYGE_IS_DEV_PLATFORM

@@ -371,7 +371,11 @@ namespace KlayGE
 			auto const & effect = *re.BlitEffect();
 			auto const & tech = *re.BilinearBlitTech();
 			auto& pass = tech.Pass(0);
-			pass.Bind(effect);
+
+			bool const shader_hw_res_ready = pass.Bind(effect);
+			BOOST_ASSERT(shader_hw_res_ready);
+			KFL_UNUSED(shader_hw_res_ready);
+
 			D3D12ShaderObject& d3d12_so = *checked_cast<D3D12ShaderObject*>(pass.GetShaderObject(effect).get());
 
 			D3D12RenderLayout& d3d12_rl = *checked_cast<D3D12RenderLayout*>(re.PostProcessRenderLayout().get());

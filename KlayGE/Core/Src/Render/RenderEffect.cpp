@@ -4929,12 +4929,22 @@ namespace KlayGE
 	}
 #endif
 
-	void RenderPass::Bind(RenderEffect const & effect) const
+	bool RenderPass::Bind(RenderEffect const & effect) const
 	{
-		RenderEngine& render_eng = Context::Instance().RenderFactoryInstance().RenderEngineInstance();
-		render_eng.SetStateObject(render_state_obj_);
+		auto const & so = this->GetShaderObject(effect);
+		if (so->HWResourceReady())
+		{
+			RenderEngine& render_eng = Context::Instance().RenderFactoryInstance().RenderEngineInstance();
+			render_eng.SetStateObject(render_state_obj_);
 
-		this->GetShaderObject(effect)->Bind();
+			so->Bind();
+
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	void RenderPass::Unbind(RenderEffect const & effect) const

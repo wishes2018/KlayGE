@@ -90,6 +90,10 @@ namespace KlayGE
 			std::function<void()> func;
 		};
 
+	public:
+		explicit OGLESShaderObject(std::shared_ptr<OGLESShaderObjectTemplate> const & so_template);
+
+	private:
 		void AttachGLSL(uint32_t type);
 		void LinkGLSL();
 		void AttachUBOs(RenderEffect const & effect);
@@ -97,8 +101,7 @@ namespace KlayGE
 		void PrintGLSLError(ShaderType type, std::string_view info);
 		void PrintGLSLErrorAtLine(std::string const & glsl, int err_line);
 
-	public:
-		explicit OGLESShaderObject(std::shared_ptr<OGLESShaderObjectTemplate> const & so_template);
+		void CheckHwResourceReady() override;
 
 	private:
 		std::shared_ptr<OGLESShaderObjectTemplate> so_template_;
