@@ -17,7 +17,9 @@ ELSE()
 			SET(KLAYGE_FILESYSTEM_LIBRARY "c++fs")
 		ENDIF()
 	ELSE()
-		link_directories(${EXTERNAL_PROJECT_DIR}/lib/boost/${KLAYGE_PLATFORM_NAME})
+		if(KLAYGE_PLATFORM_WINDOWS)
+			link_directories(${EXTERNAL_PROJECT_DIR}/lib/boost/${KLAYGE_PLATFORM_NAME})
+		endif()
 		set(KLAYGE_FILESYSTEM_LIBRARY
 			debug boost_filesystem${KLAYGE_OUTPUT_SUFFIX}${CMAKE_DEBUG_POSTFIX} optimized boost_filesystem${KLAYGE_OUTPUT_SUFFIX}
 			debug boost_system${KLAYGE_OUTPUT_SUFFIX}${CMAKE_DEBUG_POSTFIX} optimized boost_system${KLAYGE_OUTPUT_SUFFIX}
